@@ -77,23 +77,7 @@ export class Stolica {
           .then((p) => {
             if (p.ok) {
               this.menuContainer.remove();
-              if (this.chair.classList.contains("chairleft")) {
-                this.chair.classList.remove("chairleft");
-                this.chair.classList.add("chairleftred");
-                this.slobodna = false;
-              } else if (this.chair.classList.contains("chairright")) {
-                this.chair.classList.remove("chairright");
-                this.chair.classList.add("chairrightred");
-                this.slobodna = false;
-              } else if (this.chair.classList.contains("chairtop")) {
-                this.chair.classList.remove("chairtop");
-                this.chair.classList.add("chairtopred");
-                this.slobodna = false;
-              } else if (this.chair.classList.contains("chairbottom")) {
-                this.chair.classList.remove("chairbottom");
-                this.chair.classList.add("chairbottomred");
-                this.slobodna = false;
-              }
+              this.chairRed_Blue("","red");
             } else if (p.status == 400) {
               alert("Porudzbina nije pronadjena.");
             } else {
@@ -110,4 +94,25 @@ export class Stolica {
     };
     host.appendChild(this.menuContainer);
   }
+  chairRed_Blue(p1,p2)
+  {
+    if (this.chair.classList.contains("chairleft"+p1)) {
+      this.chair.classList.remove("chairleft"+p1);
+      this.chair.classList.add("chairleft"+p2);
+      this.slobodna = false;
+    } else if (this.chair.classList.contains("chairright"+p1)) {
+      this.chair.classList.remove("chairright"+p1);
+      this.chair.classList.add("chairright"+p2);
+      this.slobodna = false;
+    } else if (this.chair.classList.contains("chairtop"+p1)) {
+      this.chair.classList.remove("chairtop"+p1);
+      this.chair.classList.add("chairtop"+p2);
+      this.slobodna = false;
+    } else if (this.chair.classList.contains("chairbottom"+p1)) {
+      this.chair.classList.remove("chairbottom"+p1);
+      this.chair.classList.add("chairbottom"+p2);
+      this.slobodna = false;
+    }
+  }
+
 }

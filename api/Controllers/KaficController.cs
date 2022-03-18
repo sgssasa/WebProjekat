@@ -24,12 +24,18 @@ namespace api.Controllers
         {
             try
             {
-                var p = Context.Porudzbine.Where(x => x.id == id).FirstOrDefault();
+                var p = Context.Porudzbine.Where(x => x.id == id).Include(p=>p.stolica).ThenInclude(p=>p.porudzbine).FirstOrDefault();
                 if (p != null)
                 {
                     p.obradjena = true;
                     await Context.SaveChangesAsync();
-                    return Ok($"Uspešno obradjena porudzbina! ID: {p.id}");
+                    if(p.stolica.porudzbine.Where(x=>x.obradjena==false).ToList().Count==0)
+                    {
+                        p.stolica.slobodna=true;
+                        await Context.SaveChangesAsync();
+                        return Ok(new {oslobodi=true});
+                    }
+                   return Ok(new {oslobodi=false});
                 }
                 else
                 {
@@ -60,6 +66,7 @@ namespace api.Controllers
                 {
                     return BadRequest("Stolica nije pronadjena");
                 }
+                stolica.slobodna=false;
                 Porudzbina por = new Porudzbina { obradjena = false, stolica = stolica };
                 Context.Porudzbine.Add(por);
                 await Context.SaveChangesAsync();

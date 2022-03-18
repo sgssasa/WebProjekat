@@ -253,7 +253,13 @@ export class Kafic {
         p.json().then((data) => {
           this.narudzbine = [];
           data.forEach((n) => {
-            let narudzbina = new Narudzbina(n.id, n.stolicaOznaka, n.stoOznaka);
+            let sto=this.stolovi.find(s=>s.oznaka==n.stoOznaka);
+            let stolica=null;
+            if(sto!=null)
+            {
+              stolica=sto.stolice.find(s=>s.oznaka==n.stolicaOznaka);
+            }
+            let narudzbina = new Narudzbina(n.id, n.stolicaOznaka, n.stoOznaka,stolica);
             n.proizvodi.forEach((p) => {
               let proizvod = new Proizvod("", p.naziv, p.kolicina, p.cena);
               narudzbina.proizvodi.push(proizvod);

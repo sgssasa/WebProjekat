@@ -1,12 +1,13 @@
 import { Proizvod } from "./proizvod.js";
 
 export class Narudzbina {
-  constructor(id, stolicaOznaka, stoOznaka) {
+  constructor(id, stolicaOznaka, stoOznaka, stolica) {
     this.id = id;
     this.stolicaOznaka = stolicaOznaka;
     this.stoOznaka = stoOznaka;
     this.proizvodi = [];
     this.container = null;
+    this.stolica = stolica;
   }
 
   drawOrder(host) {
@@ -52,6 +53,14 @@ export class Narudzbina {
       })
         .then((p) => {
           if (p.ok) {
+            p.json().then((data) => {
+              if (data.oslobodi == true) {
+                if (this.stolica != null) {
+                  this.stolica.chairRed_Blue("red","");
+                }
+              }
+            });
+
             if (this.container != null) {
               this.container.remove();
             }
